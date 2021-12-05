@@ -34,27 +34,22 @@ $coordinates = Hash.new
 
 lines.each do |(x1,y1), (x2,y2)|
     if x1 == x2
-        for i in y1..y2 do
-            add2coordinates x1, i
+        while y1 != y2 do
+            add2coordinates x1, y1
+            y1 += y1<y2 ? 1 : -1
         end
-        for i in y2..y1 do
-            add2coordinates x1, i
-        end
+        add2coordinates x2,y2
     elsif y1 == y2
-        for i in x1..x2 do
-            add2coordinates i, y1
+        while x1 != x2 do
+            add2coordinates x1, y1
+            x1 += x1<x2 ? 1 : -1
         end
-        for i in x2..x1 do
-            add2coordinates i, y2
-        end
-    else
-        next
+        add2coordinates x2,y2
     end
 end
-# Count points > 2
-if ARGV[0] == "test"
-    puts createDiagram 
-end
+
+puts createDiagram if ARGV[0] == "test"
+
 $coordinates.delete_if {|key, value| value == 1 } 
 puts "Result: #{$coordinates.count}"
 
@@ -66,36 +61,28 @@ lines = importData
 lines.each do |(x1,y1), (x2,y2)|
 
     if x1 == x2
-        for i in y1..y2 do
-            add2coordinates x1, i
+        while y1 != y2 do
+            add2coordinates x1, y1
+            y1 += y1<y2 ? 1 : -1
         end
-        for i in y2..y1 do
-            add2coordinates x1, i
-        end
+        add2coordinates x2,y2
     elsif y1 == y2
-        for i in x1..x2 do
-            add2coordinates i, y1
+        while x1 != x2 do
+            add2coordinates x1, y1
+            x1 += x1<x2 ? 1 : -1
         end
-        for i in x2..x1 do
-            add2coordinates i, y2
-        end
+        add2coordinates x2,y2
     else
-        j =0      
-        for i in x1..x2 do
-            add2coordinates i, y1+j
+        j =0 
+        while x1 != x2 do
+            add2coordinates x1, y1+j
+            x1 += x1<x2 ? 1 : -1
             k = y1 > y2 ? -1 : 1 
             j += k
         end
-        for i in x2..x1 do
-            add2coordinates i, y2+j
-            k = y2 > y1 ? -1 : 1 
-            j += k
-        end
+        add2coordinates x2,y2
     end
 end
-if ARGV[0] == "test"
-    diagram = createDiagram
-    puts diagram
-end
+puts createDiagram if ARGV[0] == "test"
 $coordinates.delete_if {|key, value| value < 2 } 
 puts "Result: #{$coordinates.count}"
