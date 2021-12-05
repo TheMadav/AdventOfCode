@@ -38,14 +38,14 @@ lines.each do |(x1,y1), (x2,y2)|
             add2coordinates x1, y1
             y1 += y1<y2 ? 1 : -1
         end
-        add2coordinates x2,y2
     elsif y1 == y2
         while x1 != x2 do
             add2coordinates x1, y1
             x1 += x1<x2 ? 1 : -1
-        end
-        add2coordinates x2,y2
+        end     
     end
+    # Last point not covered in while loop
+    add2coordinates x2,y2
 end
 
 puts createDiagram if ARGV[0] == "test"
@@ -65,13 +65,11 @@ lines.each do |(x1,y1), (x2,y2)|
             add2coordinates x1, y1
             y1 += y1<y2 ? 1 : -1
         end
-        add2coordinates x2,y2
     elsif y1 == y2
         while x1 != x2 do
             add2coordinates x1, y1
             x1 += x1<x2 ? 1 : -1
-        end
-        add2coordinates x2,y2
+        end  
     else
         j =0 
         while x1 != x2 do
@@ -80,8 +78,9 @@ lines.each do |(x1,y1), (x2,y2)|
             k = y1 > y2 ? -1 : 1 
             j += k
         end
-        add2coordinates x2,y2
     end
+    # Last point not covered in while loop
+    add2coordinates x2,y2
 end
 puts createDiagram if ARGV[0] == "test"
 $coordinates.delete_if {|key, value| value < 2 } 
