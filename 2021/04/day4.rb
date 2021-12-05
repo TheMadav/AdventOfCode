@@ -1,5 +1,5 @@
 NA = "NA"
-FILE = ARGV[0] == "test" ? 'test.txt' : 'input.txt'
+FILE = ARGV[0] == "test" ? './test.txt' : './input.txt'
 input = File.readlines(FILE)
 puts "Number of rows: #{input.size}"
 numbers = input.shift
@@ -47,7 +47,7 @@ def squareValue square, number
     square.flatten!.delete(NA)
     square.map!{|x| x.to_i}
     sum = square.sum
-    puts "==============================="
+    puts "========="
     puts "Winning sum: #{sum}"
     puts "Result #{number.to_i*sum}"
 end
@@ -72,10 +72,11 @@ end
 
 squares = import_squares
 i = 0
+puts "============== TASK 1=============="
 puts "Number of squares #{squares.size}"
 numbers.split(",").each do |number|
     i += 1
-    puts "Picked number #{number}"
+    #puts "Picked number #{number}"
     
     squares.map!{|square| 
         square.map!{
@@ -88,19 +89,16 @@ end
 
 puts "============== TASK 2=============="
 
-
 def remainingSquares squares
     return squares.delete_if{|s| (full_row?(s) || full_column?(s))}
 end
-squares.clear
+
 squares = import_squares
 i = 0
 puts "Number of squares #{squares.size}"
 
 numbers.split(",").each do |number|
     i += 1
-#    puts "Picked number #{number}"
-    
     squares.map!{|square| 
         square.map!{
         |row| 
