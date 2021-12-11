@@ -28,7 +28,6 @@ def flash x, y
     end
     #puts "Burned out octopus at #{x} / #{y} : #{$octopus[y][x]}"
     $flashesCount += 1
-    #exit
 end
 
 for i in 1..ROUND do
