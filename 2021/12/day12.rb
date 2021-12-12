@@ -4,34 +4,44 @@ require 'pp'
 input = File.readlines(FILE)
 $connections = input.map{|x| x.strip.split("-")}
 pp $connections if TEST
-$paths = Array.new
 
-def nextWayPoint path, listSmallCaves 
-    current = path.last
-    if current == current.downcase && current != "end"
-        listSmallCaves << current
-    end
+def nextWayPoint path, listSmallCaves
+    current = path.last    
     if current == 'end'
         puts "Found the end for path #{path}" if TEST
-        $paths << path.dup
+        $paths += 1
         return
+    elsif current == current.downcase 
+        listSmallCaves << current
     end
-  
+    
     possibleConnections = $connections.select{|x| x.include?(current)}  
-    puts "At point #{current} found #{possibleConnections} options" if TEST
     possibleConnections.each do |connection|
         puts "Current path #{path}, have #{possibleConnections.size} options" if TEST
         nextCave = connection[0] == current ? connection[1] : connection[0]
         if listSmallCaves.include?(nextCave)
-            ## For part 1 remove the condition here
-            next unless nextCave != 'start' && listSmallCaves.size == listSmallCaves.uniq.size
+            next unless $part == 2 && nextCave != 'start' && listSmallCaves.size == listSmallCaves.uniq.size
         end
         puts "Currently at #{current}, next cave is #{nextCave}" if TEST
         nextWayPoint path.dup << nextCave, listSmallCaves.dup
     end
 end
 
+start = Time.now
+puts SP1
+$paths = 0
+$part = 1
 nextWayPoint ['start'], []
-pp $paths if TEST
 puts "----------"
-puts "Result: #{$paths.size}"
+puts "Result: #{$paths}"
+
+puts SP2
+$paths = 0
+$part = 2
+nextWayPoint ['start'], []
+puts "----------"
+puts "Result: #{$paths}"
+# code to time
+finish = Time.now
+
+puts "It took #{finish - start} seconds to calculate"
