@@ -4,11 +4,12 @@ require 'pp'
 lines = File.readlines(FILE).map{|x| x.strip.chars}
 
 ## SETUP
+
 opening = ["(", "[", "{", "<"]
 closing = [")", "]", "}", ">"]
+
 errorPoints,autocompletePoints  = Hash.new()
 errorPoints = { ")" => 3, "]" => 57, "}" => 1197, ">" => 25137 }
-#autocompletePoints = Hash.new()
 autocompletePoints = { ")" => 1, "]" => 2, "}" => 3, ">" => 4 }
 
 pairs = Hash.new()
