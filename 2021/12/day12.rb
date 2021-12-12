@@ -20,7 +20,7 @@ def nextWayPoint path, listSmallCaves
         puts "Current path #{path}, have #{possibleConnections.size} options" if TEST
         nextCave = connection[0] == current ? connection[1] : connection[0]
         if listSmallCaves.include?(nextCave)
-            next unless $part == 2 && nextCave != 'start' && listSmallCaves.size == listSmallCaves.uniq.size
+            next unless $secondPart && nextCave != 'start' && listSmallCaves.size == listSmallCaves.uniq.size
         end
         puts "Currently at #{current}, next cave is #{nextCave}" if TEST
         nextWayPoint path.dup << nextCave, listSmallCaves.dup
@@ -30,14 +30,14 @@ end
 start = Time.now
 puts SP1
 $paths = 0
-$part = 1
+$secondPart = false
 nextWayPoint ['start'], []
 puts "----------"
 puts "Result: #{$paths}"
 
 puts SP2
 $paths = 0
-$part = 2
+$secondPart = true
 nextWayPoint ['start'], []
 puts "----------"
 puts "Result: #{$paths}"
