@@ -5,26 +5,9 @@ $rows = File.readlines(FILE).map(&:strip).map{|x| x.split("").map{|y| y.to_i}}
 
 $directions = ["UP", "DOWN", "RIGHT", "LEFT"]
 
-def findPath x,y, currentScore
-    currentScore = currentScore + $rows[y][x]
-    if currentScore >= $riskScore || $wayPointScore["#{x}#{y}"] < currentScore
-        #puts "Canceled way at #{currentScore}"
-        return
-    end
-    $wayPointScore["#{x}#{y}"] = currentScore
-    if x == $rows[0].size-1 && y == $rows.size-1
-        puts "Found the end with #{currentScore}"
-        $riskScore = currentScore
-        return
-    end
-    $directions.each do |d|
-        nextLocation = travel(x,y,d) 
-        next if nextLocation.nil?    
-        #puts "Next local #{nextLocation}, current score #{currentScore}"
-        findPath nextLocation[0], nextLocation[1], currentScore 
-    end 
-
-end
+COLUMNS = $rows[0].size
+ROWS = $rows.size
+FACTOR =5
 
 def travel x,y, direction
     case direction
@@ -41,21 +24,6 @@ def travel x,y, direction
     end
 end
 
-puts SP1
-$riskScore = $rows[0].sum
-$rows.map{|x| $riskScore += x.last}
-$wayPointScore = Hash.new($rows.size*$rows[0].size*9)
-findPath 0, 0, -1*($rows[0][0])
-puts "Initial Risk Score #{$riskScore}"
-puts "----"
-puts "Result #{$riskScore}"
-
-
-puts SP2
-COLUMNS = $rows[0].size
-ROWS = $rows.size
-FACTOR = 5
-puts "Initial map had size #{COLUMNS} / #{ROWS} - new map will have size #{COLUMNS*FACTOR} / #{ROWS*FACTOR}"
 
 $largeMap = (ROWS*FACTOR).times.map{Array.new(COLUMNS*FACTOR)}
 $rows.length.times do |y|
@@ -82,7 +50,7 @@ end
 
 def calculateWay map
     fastestPath = Hash.new{|h,k| h[k]=ROWS*COLUMNS*FACTOR*9} 
-    puts "Default value: #{fastestPath[[0,0]]}"
+    #puts "Default value: #{fastestPath[[0,0]]}"
     currentNodes = [[0,0]]
     fastestPath[[0,0]] = 0
 
@@ -102,6 +70,13 @@ def calculateWay map
 end
 
 $rows = $largeMap
-fastestPath = calculateWay $largeMap
+
+puts SP1
+fastestPath = calculateWay $rows
+puts "------"
+puts "Result: #{fastestPath[[COLUMNS-1, ROWS-1]]}"
+
+puts SP2
+puts "Initial map had size #{COLUMNS} / #{ROWS} - new map will have size #{COLUMNS*FACTOR} / #{ROWS*FACTOR}"
 puts "------"
 puts "Result: #{fastestPath[[COLUMNS*FACTOR-1, ROWS*FACTOR-1]]}"
