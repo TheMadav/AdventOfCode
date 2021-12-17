@@ -54,5 +54,3 @@ puts "----------"
 best = $successful.max_by{|x| x[:maxheight]}
 puts "Successful solutions #{$successful.size}"
 puts "Result: #{best[:xv]} / #{best[:yv]} reached #{best[:maxheight]}"
-
-#546 <- to low
